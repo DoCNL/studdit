@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 before((done) => {
-    mongoose.connect('mongodb://localhost/studdit_test2');
+    mongoose.connect('mongodb://localhost/studdit_test');
     mongoose.connection
         .once('open', () => {
             console.log('Database connection succesfully made')
