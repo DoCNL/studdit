@@ -14,14 +14,14 @@ before((done) => {
         });
 });
 
-beforeEach((done) => {
-    const { users, comments, threads } = mongoose.connection.collections;
+// beforeEach((done) => {
+//     const { users, comments, threads } = mongoose.connection.collections;
 
-    users.drop(() => {
-        comments.drop(() => {
-            threads.drop(() => {
-                done();
-            });
-        });
-    });
-});
+//     //users.drop(() => {
+//         comments.drop(() => {
+//             threads.drop(() => {
+//                 done();
+//             });
+//         });
+//     });
+//});
