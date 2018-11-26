@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     name: {
         type: String,
+        unique: true,
         validate: {
             validator: (name) => name.length > 2,
             message: 'Name must be longer than two characters.'
@@ -12,6 +13,7 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
+        unique: true,
         validate: {
             validator: (password) => password.length > 5,
             message: 'Password must be at least six characters.'

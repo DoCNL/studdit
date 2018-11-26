@@ -6,10 +6,14 @@ const ThreadSchema = new Schema({
         type: String,
         required: [true, 'Title is required.']
     },
-    content: String,
+    content: {
+        type: String,
+        required: [true, 'Content is required.']
+    },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'user',
+  
     },
     votes: {
         type: Number,
