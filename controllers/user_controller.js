@@ -1,45 +1,53 @@
-const express = require('express');
-var routes = express.Router();
 const User = require('../src/user');
-var mongodb = require('../config/mongodb_connector');
 
-routes.get('/users', function(req, res) {
-    res.contentType('application/json');
-    User.find({})
-        .then((users) => {
-            //console.log(users);
-            res.status(200).json(users);
+module.exports = {
+
+    create(req, res, next){
+        const userProps = req.body;
+
+        User.create(userProps)  
+        console.log('user saved');
+    },
+
+    edit(req, res, next){
+        const username = req.body.username;
+        const currentPassword = req.body.password;
+        const newPassword = req.body.newPassword;
+
+        User.findOne( { username: username } ) //find user
+        .then(user =>{
+            if(user === null){
+                res.status(422).send({ Error :'User does not exist.'})
+            }
+            if(user.password !== currentPassword){
+                res.status(401).send({ Error :'Current password does not match.'})
+            }
+            else{
+                user.set('password', newPassword)
+                user.save()
+            }
         })
-        .catch((error) => res.status(401).json(error));
-});
+        .catch(next);
+    },
 
-routes.post('/user/add', (req, res, next) => {
-    var user = new User({
-      name: req.body.name,
-      password: req.body.password
-    });
+    delete(req, res, next){
+        const username = req.body.username;
+        const password = req.body.password;
 
-    mongodb.collection("user").save(user, (err, result) => {
-      if(err) {
-        console.log(err);
-        res.send(err);
-      }
-
-      res.send('User added successfully');
-    });
-});
-
-routes.put('/user/edit', function(req, res) {
-    User.findOne({name: req.body.name, password: req.body.password})
-        .then((user) => {
-            mongodb.collection("users").update(user, {name: req.body.newName, password: req.body.newPassword}, (err, result) => {
-                if(err) {
-                    console.log('User/password combination not found');
-                    res.send('User/password combination not found');
-                }
-                res.send('User updated successfully');
-        });
-    });
-});
-
-module.exports = routes;
+        User.findOne( { username: username } ) //find user
+        .then(user =>{
+            if(user === null){
+                res.status(422).send({ Error :'User does not exist.'})
+            }
+            if(user.password !== password){
+                res.status(401).send({ Error :'Current password does not match.'})
+            }
+            else{
+                User.findOneAndDelete( { username: username } )
+                .then(user => res.status(200).send({Message: "User removed successfully."}))
+            }
+        })
+        .catch(next);
+    },
+    
+};

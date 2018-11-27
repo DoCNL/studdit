@@ -1,34 +1,28 @@
-const express = require('express');
-
 const Thread = require('../src/thread');
-var mongodb = require('../config/mongodb_connector');
 
- function list(req, res) {
-    res.contentType('application/json');
-    Thread.find({})
-        .then((threads) => {
-            //console.log(users);
-            res.status(200).json(threads);
+module.exports = {
+
+    create(req, res, next){
+        const threadProps = req.body;
+
+        Thread.create(threadProps)  
+        console.log('thread saved');
+    },
+
+    edit(req, res, next){
+        const title = req.body.title;
+        const newContent = req.body.newContent;
+
+        Thread.findOne( { title: title } ) //find the thread
+        .then(thread =>{
+            if(thread === null){
+                res.status(422).send({ Error :'thread does not exist.'})
+            }
+            if(thread.content !== currentContent){
+                thread.set('content', newContent)
+                thread.save()
+            }
         })
-        .catch((error) => res.status(401).json(error));
+        .catch(next);
+    }
 }
-
-function create(req, res, next){
-    var thread = new Thread({
-      title: req.body.title,
-      content: req.body.content
-    });
-
-    mongodb.collection("thread").save(thread, (err, result) => {
-      if(err) {
-        console.log(err);
-        res.send(err);
-      }
-
-      res.send('Thread added successfully');
-    });
-}
-
-module.exports = list = list;
-                create = create;
-
