@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('../src/user');
 
 const ThreadSchema = new Schema({
     title: {
@@ -13,6 +14,7 @@ const ThreadSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'user',
+        required: [true, 'Who wrote this?']
   
     },
     votes: {

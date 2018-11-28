@@ -12,6 +12,7 @@ module.exports = {
     edit(req, res, next){
         const title = req.body.title;
         const newContent = req.body.newContent;
+        const author = req.body.author;
 
         Thread.findOne( { title: title } ) //find the thread
         .then(thread =>{
