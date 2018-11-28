@@ -7,7 +7,7 @@ const routes = require('./routes/routes');
 var mongodb = require('./config/mongodb_connector');
 const neo4j = require('neo4j-driver').v1;
 const neo = require('./neo4j_setup');
-
+const config = require('./config/mongodb_config');
 
 app.use(bodyParser.json());
 routes(app);
@@ -16,13 +16,11 @@ const driver = neo4j.driver('bolt://hobby-ohmdodfghkjagbkemhkmcfbl.dbs.graphened
 console.log('neo4j is live');
 const session = driver.session();
 
-
 // process.on('exit', function() {
 //     neo.driver.close();
 // });
 
-
-app.listen(3000, () => {
+app.listen(config.env.dbHost, () => {
     console.log('App is ready for requests on localhost:3000')
   })
 
