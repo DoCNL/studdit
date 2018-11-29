@@ -15,7 +15,7 @@ module.exports = {
         const currentPassword = req.body.password;
         const newPassword = req.body.newPassword;
 
-        User.findOne( { username: username } ) //find user
+        User.findOne( { name: name } ) //find user
         .then(user =>{
             if(user === null){
                 res.status(422).send({ Error :'User does not exist.'})
