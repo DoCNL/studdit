@@ -6,17 +6,18 @@ const VoteController = require('../controllers/vote_controller');
 module.exports = (app) => {
 
     //create a new user
-    app.post('/api/users/add', UserController.create);
+    app.post('/api/user/', UserController.create);
     //change password of an existing user
-    app.put('/api/users/edit', UserController.edit);
+    app.put('/api/user/', UserController.edit);
     //delete a user
-    app.put('/api/users/delete', UserController.deactivate);
+    app.delete('/api/user/', UserController.deactivate);
 
     //create a new thread
-    app.post('/api/thread/add',ThreadController.create);
+    app.post('/api/thread/',ThreadController.create);
     //edit an existing thread
-    app.post('/api/thread/edit',ThreadController.edit);
-
+    app.put('/api/thread/',ThreadController.edit);
+    //delete an existing thread and all its comments
+    app.delete('/api/thread/', ThreadController.delete);
     //create a new comment as reply to a thread
     app.post('/api/thread/reply', CommentController.replyToThread);
 
