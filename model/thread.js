@@ -17,7 +17,11 @@ const ThreadSchema = new Schema({
         required: [true, 'Who wrote this?']
   
     },
-    votes: {
+    upVotes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: {
         type: Number,
         default: 0
     },
