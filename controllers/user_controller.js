@@ -5,41 +5,33 @@ const neo4j = require('neo4j-driver').v1;
 
 const driver = neo4j.driver('bolt://hobby-ohmdodfghkjagbkemhkmcfbl.dbs.graphenedb.com:24786', neo4j.auth.basic('admin', 'b.xiLYIxT1grWi.YxWAjdJoufQvgZ3D'));
 
-=======
+
 const User = require('../model/user');
 
 
 module.exports = {
 
-    create(req, res, next){
-
-        const userProps = req.body;
+    create(req, res){
         const name = req.body.name;
         const session = driver.session();
-
-        User.create(userProps)  
         const resultAdd = session.run(
             'CREATE (a:User {name: $name}) RETURN a',
              {name: name}
-             );
-
-        resultAdd.then(result => {
-            session.close();
-            driver.close();
-        });
-        
-
-        console.log('user saved');
-    },
+             );       
+             
         User.create({
             name: req.body.name,
             password: req.body.password,
             active: true,
             threads: []
         })  
+        
         .then(() =>
             res.status(200).send({Message: "User created succesfully."}),
-            console.log('user saved'))
+            resultAdd.then(result => {
+                session.close();
+                driver.close();
+            })
         .catch((err) => {
                 //console.log(err.name + ' ' + err.code)
                 if (err.name == 'MongoError' && err.code == 11000) {
