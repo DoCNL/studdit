@@ -16,11 +16,13 @@ module.exports = (app) => {
     app.post('/api/thread/add',ThreadController.create);
     //edit an existing thread
     app.post('/api/thread/edit',ThreadController.edit);
-
     //create a new comment as reply to a thread
     app.post('/api/thread/reply', CommentController.replyToThread);
-
     //Upvote a thread or comment, depends on the given object
     app.post('/api/thread/upvote',VoteController.upVoteThread);
 
+    //delete a comment
+    app.post('/api/comment/remove/:id', CommentController.remove);
+    //edit a comment
+    app.post('/api/comment/edit/:id', CommentController.edit);
 };

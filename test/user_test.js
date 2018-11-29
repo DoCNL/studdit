@@ -8,7 +8,7 @@ describe('USERS:', () => {
         User.count().then(count => {
             request(app)
                 .post('/api/users/add')
-                .send({ name: 'asdass', password: 'password123' })
+                .send({ name: 'dion', password: 'password123' })
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200, done)

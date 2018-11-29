@@ -56,9 +56,8 @@ module.exports = {
     },
     
     delete(req, res, next){
-        const title = req.body.title;
-        const newContent = req.body.newContent;
-        const author = req.body.author;
+        const id = req.body._id;
+
 
         Thread.findOne({_id:req.params.id}) //find the thread
         .then(thread =>{
