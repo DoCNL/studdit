@@ -29,18 +29,25 @@ describe('THREADS:', () => {
             request(app)
                 .put('/api/thread/')
                 .send({ title: 'patat', newContent : 'nee toch curry' })
-                .set('Accept', 'application/json')
-                
-                .expect(200, done);    
-            
+                .end(() => {
+                    Thread.findOne({ title: 'patat' })
+                    .then((thread) => {
+                    assert(thread.content === 'nee toch curry');
+                    done();
+                })
+            })
         })
-    })
+    })  
+            
+      
+  
 
     it('POST to /api/thread/delete removes a thread', done => {
         const user = new User({name: 'dion', password: 'password123'});
         user.save() .then(() => {
-            const thread = new Thread({name : 'dion', password : 'password123', title:  'patat', content : 'majonais'});
-            thread.save()})
+            request(app)
+                .post('/api/thread/')
+                .send({ name : 'dion' , title:  'patat', content : 'majonais' })})
                 .then(() => {
                     Thread.findOne({title: 'patat'})
                         .then((thread)=>{
@@ -74,8 +81,8 @@ describe('THREADS:', () => {
     it('PUT to /api/comment/edit/:id replies to a thread', done => {
         const user = new User({name: 'dion', password: 'password123'});
         const user2 = new User({name: 'arno', password: 'wachtw00rd1'});
-        user.save()
-        user2.save() .then(() => {
+        user.save() .then(() =>{
+        user2.save()}) .then(() => {
         const thread = new Thread({name : 'dion', password : 'password123', title:  'patat', content : 'majonais'});
         thread.save()})
         
