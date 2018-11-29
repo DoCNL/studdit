@@ -1,4 +1,4 @@
-const Comment = require('../src/comment');
+const Comment = require('../model/comment');
 
 module.exports = {
 
