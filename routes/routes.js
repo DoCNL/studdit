@@ -28,4 +28,12 @@ module.exports = (app) => {
     //create a new comment as reply to a thread with 'name, id, content'
     app.post('/api/thread/reply', CommentController.replyToThread);
 
+    //Upvote a thread or comment, depends on the given object
+    app.post('/api/thread/upvote',VoteController.upVoteThread);
+
+    //delete a comment
+    app.post('/api/comment/remove/:id', CommentController.remove);
+    //edit a comment
+    app.post('/api/comment/edit/:id', CommentController.edit);
+
 };
