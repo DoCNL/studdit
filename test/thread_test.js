@@ -61,7 +61,7 @@ describe('THREADS:', () => {
                 .put('/api/comment/edit/:id')
                 .send({ name : 'arno', password : 'wachtw00rd1', content : 'pertat*' } )
                 .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
+ //               .expect('Content-Type', /json/)
                 .expect(200, done);
                 
         })
@@ -73,7 +73,7 @@ describe('THREADS:', () => {
                 .put('/api/comment/remove/:id')
                 .send({ name : 'arno', password : 'wachtw00rd1'} )
                 .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
+ //               .expect('Content-Type', /json/)
                 .expect(200, done);
                 
         })
