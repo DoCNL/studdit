@@ -27,6 +27,12 @@ const ThreadSchema = new Schema({
     }]
 });
 
+ThreadSchema.pre('remove', function(next) {
+    const Comment = mongoose.model('comment');
+    Comment.remove({ _id: { $in: this.comments } })
+        .then(() => next());
+});
+
 const Thread = mongoose.model('thread', ThreadSchema);
 
 module.exports = Thread;
