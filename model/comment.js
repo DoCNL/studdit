@@ -18,11 +18,7 @@ const CommentSchema = new Schema({
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'comment'
-    }],
-    threadId: {
-        type: Schema.Types.ObjectId._id,
-        ref: 'thread'
-    }
+    }]
 });
 
 const Comment = mongoose.model('comment', CommentSchema);

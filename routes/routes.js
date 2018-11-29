@@ -18,6 +18,6 @@ module.exports = (app) => {
     app.post('/api/thread/edit',ThreadController.edit);
 
     //Upvote a thread or comment, depends on the given object
-    app.post('/api/thread/upvote',VoteController.upVote);
+    app.post('/api/thread/upvote',VoteController.upVoteThread);
 
 };

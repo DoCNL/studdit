@@ -4,11 +4,16 @@ const Thread = require('../model/thread');
 
 module.exports = {
 
-    upVote(req, res, next){
-        const name = req.body.name;
-        const password = req.body.password;
+    upVoteThread(req, res, next){
+        const threadTitle = req.body.threadTitle;
 
-        User.findOne( { "name": name, "password": password } ) //find user 
-        console.log('thread saved');
+        Threads.findOne({ "title": threadTitle })
+        if (thread === null){
+            res.status(422).send({ Error :'Thread does not exist.'})
+        } else {
+            const newVote = thread.upVote++;
+            Thread.findOneAndUpdate(thread, { "upVote": newVote })
+            .then(user => res.status(200).send({Message: "Thread upvoted succesfully"}))
+        }
     }
 }

@@ -5,6 +5,7 @@ const User = require('./user');
 const ThreadSchema = new Schema({
     title: {
         type: String,
+        unique: true,
         required: [true, 'Title is required.']
     },
     content: {
