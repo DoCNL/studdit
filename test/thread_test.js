@@ -10,7 +10,7 @@ describe('THREADS:', () => {
         const user = new User({name: 'dion', password: 'password123'});
         user.save().then(() => {
             request(app)
-                .post('/api/thread/add')
+                .post('/api/thread/')
                 .send({ name : 'dion' , password : 'password123' , title:  'patat', content : 'majonais' })
                 .set('Accept', 'application/json')
  //               .expect('Content-Type', /json/)
@@ -18,15 +18,15 @@ describe('THREADS:', () => {
         })        
     })
 
-    it('PUT to /api/thread/edit edits a thread', done => {
+    it('PUT to /api/thread/ edits a thread', done => {
         const user = new User({name: 'dion', password: 'password123'});
-        user.save() .then(() => {
-        const thread = new Thread({name : 'dion', password : 'password123', title:  'aardappelsla', content : 'majonais'});
+        user.save().then(() => {
+        const thread = new Thread({name: 'dion', password: 'password123', title:  'aardappelsla', content : 'majonais'});
         thread.save()})
         .then(() => {
 
             request(app)
-                .put('/api/thread/edit')
+                .put('/api/thread/')
                 .send({ name : 'dion', password : 'password123', title:  'patat', newContent : 'nee toch curry' })
                 .set('Accept', 'application/json')
                 
@@ -59,8 +59,6 @@ describe('THREADS:', () => {
         thread.save()})
         .then(() => {
             request(app)
-                .post('/api/users/add')
-                .send({ name: 'arno', password: 'wachtw00rd1' })
                 .post('/api/thread/reply')
                 .send({ name : 'arno', password : 'wachtw00rd1', title:  'patat', content : 'is het niet petat' } )
                 .set('Accept', 'application/json')
@@ -77,6 +75,7 @@ describe('THREADS:', () => {
         user2.save() .then(() => {
         const thread = new Thread({name : 'dion', password : 'password123', title:  'patat', content : 'majonais'});
         thread.save()})
+        
         .then(() => {
             request(app)
                 .put('/api/comment/edit/:id')
@@ -97,7 +96,7 @@ describe('THREADS:', () => {
         thread.save()})
         .then(() => {
             request(app)
-                .put('/api/comment/remove/:id')
+                .post('/api/comment/remove/:id')
                 .send({ name : 'arno', password : 'wachtw00rd1'} )
                 .set('Accept', 'application/json')
  //               .expect('Content-Type', /json/)
