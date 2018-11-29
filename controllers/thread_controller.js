@@ -38,6 +38,20 @@ module.exports = {
     },
 
     edit(req, res, next){
+        User.findOne({
+            name: req.body.name
+        })
+        .then((user) => {
+        console.log(user);
+        if (user == undefined){
+            res.status(422).send({ Error :'User does not exist.'})
+        } if (user.password !== req.body.password){
+            res.status(401).send({ Error :'Password is incorrect.'})
+        } else { 
+
+        } });
+
+        //add logic below into the else{}
         const title = req.body.title;
         const newContent = req.body.newContent;
         const author = req.body.author;

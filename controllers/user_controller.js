@@ -9,13 +9,13 @@ module.exports = {
             active: true,
             threads: []
         })  
-        .then(
+        .then(() =>
             res.status(200).send({Message: "User created succesfully."}),
             console.log('user saved'))
         .catch((err) => {
                 console.log(err.name + ' ' + err.code)
                 if (err.name == 'MongoError' && err.code == 11000) {
-                    res.status(401).send({ Error :'Username is taken.'})
+                    res.status(401).send({ Error: 'Username is taken.'})
                 }
         })
 },

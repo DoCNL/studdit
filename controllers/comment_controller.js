@@ -4,13 +4,6 @@ const Thread = require('../model/thread');
 
 module.exports = {
 
-    // create(req, res, next){
-    //     const commentProps = req.body;
-
-    //     Comment.create(commentProps)  
-    //     console.log('comment saved');
-    // },
-
     edit(req, res, next){
         const comment = req.body.title;
         const newContent = req.body.newContent;
