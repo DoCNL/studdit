@@ -43,7 +43,7 @@ module.exports = {
         .catch(next)
     },
 
-    replyToThread(req, res, next){
+    replyToThread(req, res){
         User.findOne({ name: req.body.name })
             .then(user => {
                 console.log(user);
