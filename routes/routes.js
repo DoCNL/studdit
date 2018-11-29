@@ -9,6 +9,10 @@ module.exports = (app) => {
     app.put('/api/users/edit', UserController.edit);
     //delete user
     app.delete('/api/users/delete', UserController.delete);
+    // Befriend users
+    app.post('/api/users/addfriend', UserController.addFriend);
+    // Delete friendship
+    app.delete('/api/users/deletefriend', UserController.deleteFriend)
 
     //create thread
     app.post('/api/thread/add',ThreadController.create);
