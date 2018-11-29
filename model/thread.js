@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('../src/user');
+const User = require('./user');
 
 const ThreadSchema = new Schema({
     title: {

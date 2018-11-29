@@ -1,4 +1,4 @@
-const Thread = require('../src/thread');
+const Thread = require('../model/thread');
 
 module.exports = {
 
