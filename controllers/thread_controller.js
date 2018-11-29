@@ -14,20 +14,23 @@ module.exports = {
         } if (user.password !== req.body.password){
             res.status(401).send({ Error :'Password is incorrect.'})
         } else {
-            Thread.findOne({ "title": req.body.threadTitle })
+            Thread.findOne({ title: req.body.title })
             .then((thread) => {
-            if (thread == null){
-                Thread.create({
+            if (thread == undefined){
+                const thread = new Thread({
                     "title": req.body.title,
                     "content": req.body.content,
                     "author": user,
                     "upVotes": 0,
                     "downVotes": 0
                 })
-                .then(res.status(200).send({Message: "Thread created succesfully"}))
+                user.threads.push(thread)
+                thread.save()
+                Promise.all([user.save(), thread.save])
+                .then(() => res.status(200).send({Message: "Thread created succesfully"}))
                 .catch((error) => res.status(401).json(error));
             } else {
-                res.status(422).send({ Error :'Thread does not exist.'});
+                res.status(422).send({ Error :'Threadtitle already in use.'});
             }
             });
         }

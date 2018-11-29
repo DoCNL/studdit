@@ -6,7 +6,8 @@ module.exports = {
         User.create({
             name: req.body.name,
             password: req.body.password,
-            active: true
+            active: true,
+            threads: []
         })  
         .then(
             res.status(200).send({Message: "User created succesfully."}),

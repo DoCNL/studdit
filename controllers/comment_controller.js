@@ -1,4 +1,6 @@
 const Comment = require('../model/comment');
+const User = require('../model/user');
+const Thread = require('../model/thread');
 
 module.exports = {
 
@@ -48,12 +50,35 @@ module.exports = {
         .catch(next)
     },
 
-    replyToComment(req, res, next){
-
-    },
-
     replyToThread(req, res, next){
-
+        //req should have:
+        //  name, password  (as author for the comment)
+        //  title           (which thread the comment is a reply to)
+        //  content         (plaintext of the comment)
+        User.findOne({ name: req.body.name })
+            .then((user) => {
+            if (user == undefined){
+                res.status(422).send({ Error :'User does not exist.'})
+            } if (user.password !== req.body.password){
+                res.status(401).send({ Error :'Password is incorrect.'})
+            } else {
+                Thread.findOne({ title: req.body.title })
+                    .then((thread) => {
+                        //console.log(thread);
+                        if (thread.title == undefined){
+                            res.status(422).send({ Error :'Thread does not exist.'})
+                        } else {
+                            const comment = new Comment({
+                                author: user,
+                                content: req.body.content
+                            })
+                            thread.comments.push(comment);
+                            Promise.all([comment.save(), thread.save()])
+                            .then(() => res.status(200).send({ Message :'Comment placed.'}));    
+                        }
+                    });
+            }
+        });
     }
     
 }
