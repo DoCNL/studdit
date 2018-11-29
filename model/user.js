@@ -13,7 +13,6 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        unique: true,
         validate: {
             validator: (password) => password.length > 5,
             message: 'Password must be at least six characters.'
@@ -26,8 +25,7 @@ const UserSchema = new Schema({
     }],
     active: {
         type: Boolean,
-        default: true,
-        required: [true, 'activity is required.']
+        default: true
     }
 });
 

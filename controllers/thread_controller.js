@@ -3,11 +3,7 @@ const User = require('../model/user');
 
 module.exports = {
 
-    create(req, res, next){
-        // const threadProps = req.body;
-        // Thread.create(threadProps)  
-        // console.log('thread saved');
-    
+    create(req, res, next){    
         User.findOne({
             name: req.body.name
         })
@@ -28,7 +24,8 @@ module.exports = {
                     "upVotes": 0,
                     "downVotes": 0
                 })
-                .then(res.status(200).send({Message: "Thread created succesfully"}));
+                .then(res.status(200).send({Message: "Thread created succesfully"}))
+                .catch((error) => res.status(401).json(error));
             } else {
                 res.status(422).send({ Error :'Thread does not exist.'});
             }

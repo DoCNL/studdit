@@ -2,12 +2,12 @@ const Comment = require('../model/comment');
 
 module.exports = {
 
-    create(req, res, next){
-        const commentProps = req.body;
+    // create(req, res, next){
+    //     const commentProps = req.body;
 
-        Comment.create(commentProps)  
-        console.log('comment saved');
-    },
+    //     Comment.create(commentProps)  
+    //     console.log('comment saved');
+    // },
 
     edit(req, res, next){
         const comment = req.body.title;
@@ -47,5 +47,13 @@ module.exports = {
         })
         .catch(next)
     },
+
+    replyToComment(req, res, next){
+
+    },
+
+    replyToThread(req, res, next){
+
+    }
     
 }

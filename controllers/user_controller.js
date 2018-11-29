@@ -3,12 +3,40 @@ const User = require('../model/user');
 module.exports = {
 
     create(req, res, next){
-        const userProps = req.body;
+        User.create({
+            name: req.body.name,
+            password: req.body.password,
+            active: true
+        })  
+        .then(
+            res.status(200).send({Message: "User created succesfully."}),
+            console.log('user saved'))
+        .catch((err) => {
+                console.log(err.name + ' ' + err.code)
+                if (err.name == 'MongoError' && err.code == 11000) {
+                    res.status(401).send({ Error :'Username is taken.'})
+                }
+        })
+},
 
-        User.create(userProps)  
-        console.log('user saved');
-        (user => res.status(200).send({Message: "User created succesfully"}))
-    },
+//     create(req, res, next){
+//         User.findOne({ name: req.body.name })
+//         .then((fetchedUser) => {
+//         if (fetchedUser == undefined){
+//             User.create({
+//                 name: req.body.name,
+//                 password: req.body.password,
+//                 active: true
+//             })  
+//             .then(
+//                 res.status(200).send({Message: "User created succesfully."}),
+//                 console.log('user saved'))
+//             .catch((error) => res.status(401).json(error));
+//         } else {
+//             res.status(401).send({ Error :'Username is taken.'})
+//         }
+//     });
+// },
 
     edit(req, res, next){
         const name = req.body.name;

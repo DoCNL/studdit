@@ -17,7 +17,13 @@ module.exports = (app) => {
     //edit an existing thread
     app.post('/api/thread/edit',ThreadController.edit);
 
+    //create a new comment as reply to a thread
+    app.post('/api/thread/reply', CommentController.replyToThread);
+    //create a new comment as reply to a comment
+    app.post('/api/thread/reply', CommentController.replyToThread);
+    
     //Upvote a thread or comment, depends on the given object
-    app.post('/api/thread/upvote',VoteController.upVoteThread);
+    //Needs to be tested for functionality
+    //app.post('/api/thread/upvote',VoteController.upVoteThread);
 
 };
