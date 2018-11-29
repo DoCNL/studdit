@@ -7,7 +7,11 @@ const CommentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    votes: {
+    upVotes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: {
         type: Number,
         default: 0
     },

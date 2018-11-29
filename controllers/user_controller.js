@@ -5,10 +5,14 @@ const neo4j = require('neo4j-driver').v1;
 
 const driver = neo4j.driver('bolt://hobby-ohmdodfghkjagbkemhkmcfbl.dbs.graphenedb.com:24786', neo4j.auth.basic('admin', 'b.xiLYIxT1grWi.YxWAjdJoufQvgZ3D'));
 
+=======
+const User = require('../model/user');
+
 
 module.exports = {
 
     create(req, res, next){
+
         const userProps = req.body;
         const name = req.body.name;
         const session = driver.session();
@@ -27,6 +31,23 @@ module.exports = {
 
         console.log('user saved');
     },
+        User.create({
+            name: req.body.name,
+            password: req.body.password,
+            active: true,
+            threads: []
+        })  
+        .then(() =>
+            res.status(200).send({Message: "User created succesfully."}),
+            console.log('user saved'))
+        .catch((err) => {
+                //console.log(err.name + ' ' + err.code)
+                if (err.name == 'MongoError' && err.code == 11000) {
+                    res.status(401).send({ Error: 'Username is taken.'})
+                }
+        })
+},
+
 
     addFriend(req, res, next){
         const name1 = req.body.nameA;
@@ -87,7 +108,7 @@ module.exports = {
         const currentPassword = req.body.password;
         const newPassword = req.body.newPassword;
 
-        User.findOne( { username: username } ) //find user
+        User.findOne( { name: name } ) //find user
         .then(user =>{
             if(user === null){
                 res.status(422).send({ Error :'User does not exist.'})
@@ -98,29 +119,28 @@ module.exports = {
             else{
                 user.set('password', newPassword)
                 user.save()
+                .then(user => res.status(200).send({Message: "password changed succesfully"}))
             }
         })
-        .catch(next);
     },
-
-    delete(req, res, next){
-        const name = req.body.name;
-        const password = req.body.password;
-
-        User.findOne( { name: name } )
-        .then(user =>{
+    //needs fixing
+    deactivate(req, res, next){
+        User.findOne( { name: req.body.name } )
+        .then(user => {
             if(user === null){
                 res.status(422).send({ Error :'User does not exist.'})
             }
-            if(user.password !== password){
+            if(user.password !== req.body.password){
                 res.status(401).send({ Error :'Current password does not match.'})
             }
-            else{
-                User.findOneAndDelete( { name: name } )
-                .then(user => res.status(200).send({Message: "User removed successfully."}))
+            if(user.active === false){
+                res.status(401).send({ Error :'User has already been deleted.'})
             }
-        })
-        .catch(next);
+            else{
+                User.findByIdAndUpdate(user._id, { active: 'false' })
+                .then(() => res.status(200).send({Message: "User removed succesfully"}))
+                console.log(user.active)
+            }
+        });
     },
-    
 };

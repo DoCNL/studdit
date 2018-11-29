@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('../src/user');
+const User = require('./user');
 
 const ThreadSchema = new Schema({
     title: {
         type: String,
+        unique: true,
         required: [true, 'Title is required.']
     },
     content: {
@@ -17,7 +18,11 @@ const ThreadSchema = new Schema({
         required: [true, 'Who wrote this?']
   
     },
-    votes: {
+    upVotes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: {
         type: Number,
         default: 0
     },
@@ -25,6 +30,12 @@ const ThreadSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'comment'
     }]
+});
+
+ThreadSchema.pre('remove', function(next) {
+    const Comment = mongoose.model('comment');
+    Comment.remove({ _id: { $in: this.comments } })
+        .then(() => next());
 });
 
 const Thread = mongoose.model('thread', ThreadSchema);
