@@ -28,15 +28,13 @@ describe('USERS:', () => {
     })
 })
 
-    it('DELETE to /api/users/ saves a user', done => {
+    it('DELETE to /api/users/ deletes a user', done => {
         const user = new User({name: 'dion', password:'password123'})
         user.save().then(() => {
         User.count().then(count => {
             request(app)
                 .delete('/api/user/')
                 .send({ name: 'dion', password: 'password123' })
- //               .set('Accept', 'application/json')
- //               .expect('Content-Type', /json/)
                 .expect(200, done)})
         })
     })

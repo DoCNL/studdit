@@ -21,13 +21,14 @@ describe('THREADS:', () => {
     it('PUT to /api/thread/ edits a thread', done => {
         const user = new User({name: 'dion', password: 'password123'});
         user.save().then(() => {
-        const thread = new Thread({name: 'dion', password: 'password123', title:  'aardappelsla', content : 'majonais'});
-        thread.save()})
+            request(app)
+                .post('/api/thread/')
+                .send({ name : 'dion' , title:  'patat', content : 'majonais' })})
         .then(() => {
-
+                Thread.findOne({ title: 'patat'})
             request(app)
                 .put('/api/thread/')
-                .send({ name : 'dion', password : 'password123', title:  'patat', newContent : 'nee toch curry' })
+                .send({ title: 'patat', newContent : 'nee toch curry' })
                 .set('Accept', 'application/json')
                 
                 .expect(200, done);    
@@ -38,16 +39,18 @@ describe('THREADS:', () => {
     it('POST to /api/thread/delete removes a thread', done => {
         const user = new User({name: 'dion', password: 'password123'});
         user.save() .then(() => {
-        const thread = new Thread({name : 'dion', password : 'password123', title:  'aardappelsla', content : 'majonais'});
-        thread.save()})
-        .then(() => {
-            request(app)
-                .delete('/api/thread/')
-                .send({ _id : '5c00359e5d6e52238ced75b6' })
-                .set('Accept', 'application/json')
-   //             .expect('Content-Type', /json/)
-                .expect(200, done);
-        })
+            const thread = new Thread({name : 'dion', password : 'password123', title:  'patat', content : 'majonais'});
+            thread.save()})
+                .then(() => {
+                    Thread.findOne({title: 'patat'})
+                        .then((thread)=>{
+                            request(app)
+                                .delete('/api/thread/')
+                                .send({ title: 'patat' })
+                                .set('Accept', 'application/json')
+                                .expect(200, done);
+                        })
+                })
     })
 
     it('POST to /api/thread/reply replies to a thread', done => {
@@ -106,3 +109,4 @@ describe('THREADS:', () => {
     })
     
 });
+
