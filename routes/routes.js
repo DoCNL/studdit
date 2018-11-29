@@ -18,8 +18,16 @@ module.exports = (app) => {
     app.put('/api/thread/',ThreadController.edit);
     //delete an existing thread and all its comments
     app.delete('/api/thread/', ThreadController.delete);
+    //fetch all threads without sorting them
+    app.get('/api/threads', ThreadController.getAllThreadsUnsorted);
+    //fetch a thread+comments with 'id'
+    app.get('/api/thread/:id', ThreadController.getThreadById);
+    //Upvote a thread with 'title'
+    app.post('/api/thread/upvote',VoteController.upVoteThread);
+
     //create a new comment as reply to a thread with 'name, id, content'
     app.post('/api/thread/reply', CommentController.replyToThread);
+
     //Upvote a thread or comment, depends on the given object
     app.post('/api/thread/upvote',VoteController.upVoteThread);
 
@@ -27,4 +35,5 @@ module.exports = (app) => {
     app.post('/api/comment/remove/:id', CommentController.remove);
     //edit a comment
     app.post('/api/comment/edit/:id', CommentController.edit);
+
 };

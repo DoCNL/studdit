@@ -3,7 +3,7 @@ const User = require('../model/user');
 
 module.exports = {
 
-    create(req, res, next){    
+    create(req, res){    
         User.findOne({ name: req.body.name })
         .then((user) => {
         //console.log(user);
@@ -33,7 +33,7 @@ module.exports = {
     });
     },
 
-    edit(req, res, next){
+    edit(req, res){
             Thread.findOne( { _id: req.body.id } )
             .then(thread =>{
                 if(thread === null){
@@ -51,10 +51,10 @@ module.exports = {
             })
     },
     
-    delete(req, res, next){
+    delete(req, res){
             Thread.findById(req.body.id)
             .then(thread =>{
-                console.log(thread);
+                //console.log(thread);
                 if(thread === null){
                     res.status(422).send({ Error :'thread does not exist.'})
                 } else {
@@ -62,5 +62,37 @@ module.exports = {
                     .then(() => res.status(200).send({ Message :'Thread succesfully removed.'}));
                 }
             })
+    },
+
+    getAllThreadsUnsorted(res){
+        Thread.find({}, {comments: 0}, (error, threads) => {
+            console.log(threads);
+            console.log(error);
+            if (threads === null) res.status(422).send({ Error :'No threads exist.'});
+            else res.status(200).json({threads}); 
+        })
+    },
+
+    getThreadById(req, res){
+        Thread.findById(req.params.id)
+        .populate({
+            path: 'comments',
+            model: 'comment',
+              populate: {
+                path: 'user',
+                model: 'user'
+              },
+              populate: {
+                path: 'comments',
+                model: 'comment'
+              }
+        })
+        .then(thread => {
+            if(thread === null){
+                res.status(422).send({ Error :'thread does not exist.'})
+            } else {
+                res.status(422).send({thread});
+            }
+        });
     }
 }
