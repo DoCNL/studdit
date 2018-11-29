@@ -21,7 +21,7 @@ const session = driver.session();
 // });
 
 app.listen(config.env.webPort, () => {
-    console.log('App is ready for requests on localhost:3000')
+    console.log('App is ready for requests on localhost:3000 or heroku')
   })
 
 module.exports = app;
