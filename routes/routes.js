@@ -8,7 +8,7 @@ module.exports = (app) => {
     //change password of an existing user
     app.put('/api/users/edit', UserController.edit);
     //delete a user
-    app.delete('/api/users/delete', UserController.delete);
+    app.put('/api/users/delete', UserController.deactivate);
 
     //create a new thread
     app.post('/api/thread/add',ThreadController.create);
