@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     name: {
         type: String,
+        unique: true,
         validate: {
             validator: (name) => name.length > 2,
             message: 'Name must be longer than two characters.'
@@ -21,7 +22,11 @@ const UserSchema = new Schema({
     threads: [{
         type: Schema.Types.ObjectId,
         ref: 'thread'
-    }]
+    }],
+    active: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const User = mongoose.model('user', UserSchema);

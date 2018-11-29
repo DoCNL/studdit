@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon --exec \"mocha -R min\""
+    "test": "nodemon --exec \"mocha -R min\"",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "bower": "^1.8.4",
+    "express": "^4.16.4",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.13",
-    "nodemon": "^1.18.6"
+    "neo4j-driver": "^1.7.2",
+    "nodemon": "^1.18.6",
+    "supertest": "^3.3.0"
   }
 }

@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ThreadSchema = new Schema({
-    title: {
-        type: String,
-        required: [true, 'Title is required.']
-    },
+const CommentSchema = new Schema({
     content: String,
     author: {
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    votes: {
+    upVotes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: {
         type: Number,
         default: 0
     },
@@ -21,6 +21,6 @@ const ThreadSchema = new Schema({
     }]
 });
 
-const Thread = mongoose.model('thread', ThreadSchema);
+const Comment = mongoose.model('comment', CommentSchema);
 
-module.exports = Thread;
+module.exports = Comment;
