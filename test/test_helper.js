@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-var mongodb = require('./config/mongodb_connector');
+//var mongodb = require('../config/');
 
 mongoose.Promise = global.Promise;
 
 before((done) => {
-    mongoose.connect('mongodb://localhost/studdit_test');
+    mongoose.connect('mongodb://admin:admin1@ds143593.mlab.com:43593/studdit_test', { useNewUrlParser: true });
     mongoose.connection
         .once('open', () => {
-            console.log('Database connection succesfully made')
+            console.log('Testdatabase connection succesfully made')
             done();
         })
         .on('error', (error) => {
@@ -15,14 +15,14 @@ before((done) => {
         });
 });
 
-// beforeEach((done) => {
-//     const { users, comments, threads } = mongoose.connection.collections;
+beforeEach((done) => {
+    const { users, comments, threads } = mongoose.connection.collections;
 
-//     //users.drop(() => {
-//         comments.drop(() => {
-//             threads.drop(() => {
-//                 done();
-//             });
-//         });
-//     });
-//});
+    users.drop(() => {
+        //comments.drop(() => {
+            //threads.drop(() => {
+                done();
+            });
+        });
+//    });
+// });
