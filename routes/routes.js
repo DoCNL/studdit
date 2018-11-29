@@ -5,12 +5,19 @@ const VoteController = require('../controllers/vote_controller');
 
 module.exports = (app) => {
 
+
+    // Befriend users
+    app.post('/api/users/addfriend', UserController.addFriend);
+    // Delete friendship
+    app.delete('/api/users/deletefriend', UserController.deleteFriend);
+
     //create a new user with 'name, password'
     app.post('/api/user/', UserController.create);
     //change password of an existing user with 'name, password, newPassword'
     app.put('/api/user/', UserController.edit);
     //delete a user with 'name, password'
     app.delete('/api/user/', UserController.deactivate);
+
 
     //create a new thread with 'username, title, content'
     app.post('/api/thread/',ThreadController.create);
