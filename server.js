@@ -20,7 +20,7 @@ const session = driver.session();
 //     neo.driver.close();
 // });
 
-app.listen(config.env.dbHost, () => {
+app.listen(config.env.webPort, () => {
     console.log('App is ready for requests on localhost:3000')
   })
 
