@@ -7,8 +7,8 @@ module.exports = (app) => {
     app.post('/api/users/add', UserController.create);
     //change password
     app.put('/api/users/edit', UserController.edit);
-    //delete user
-    app.delete('/api/users/delete', UserController.delete);
+    //deactivate user
+    app.put('/api/users/remove', UserController.deactivate);
 
     //create thread
     app.post('/api/thread/add',ThreadController.create);

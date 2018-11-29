@@ -7,6 +7,7 @@ module.exports = {
 
         User.create(userProps)  
         console.log('user saved');
+        (user => res.status(200).send({Message: "User created successfully."}))
     },
 
     edit(req, res, next){
@@ -14,7 +15,7 @@ module.exports = {
         const currentPassword = req.body.password;
         const newPassword = req.body.newPassword;
 
-        User.findOne( { username: username } ) //find user
+        User.findOne( { name: name } ) //find user
         .then(user =>{
             if(user === null){
                 res.status(422).send({ Error :'User does not exist.'})
@@ -25,26 +26,29 @@ module.exports = {
             else{
                 user.set('password', newPassword)
                 user.save()
+                .then(user => res.status(200).send({Message: "password changed successfully."}))
             }
         })
         .catch(next);
     },
 
-    delete(req, res, next){
-        const name = req.body.name;
-        const password = req.body.password;
+    deactivate(req, res, next,){
+        const name = req.body.name; 
 
         User.findOne( { name: name } )
         .then(user =>{
             if(user === null){
                 res.status(422).send({ Error :'User does not exist.'})
             }
-            if(user.password !== password){
-                res.status(401).send({ Error :'Current password does not match.'})
+            if(user.activity == false){
+                res.status(401).send({ Error :'user is already inactive.'})
             }
             else{
-                User.findOneAndDelete( { name: name } )
+                user.set({"active": false } )
+                user.save()
                 .then(user => res.status(200).send({Message: "User removed successfully."}))
+                console.log(user.active);
+                
             }
         })
         .catch(next);
