@@ -15,23 +15,29 @@ describe('USERS:', () => {
         })
     })
     it('PUT to /api/users/edit edits a password', done => {
+        const user = new User({name: 'dion', password:'password123'})
+        user.save().then(() => {
         User.count().then(count => {
             request(app)
-                .post('/api/users/edit')
-                .send({ name: 'dion', currentPassword: 'password123', newPassword: 'wachtw00rd1' })
+                .put('/api/users/edit')
+                .send({ name: 'dion', password: 'password123', newPassword: 'wachtw00rd1' })
                 .set('Accept', 'application/json')
-                // .expect('Content-Type', /text/html; charset=utf-8/)
+    //            .expect('Content-Type', /json/)
                 .expect(200, done)
         })
     })
+})
+
     it('PUT to /api/users/delete saves a user', done => {
+        const user = new User({name: 'dion', password:'password123'})
+        user.save().then(() => {
         User.count().then(count => {
             request(app)
-                .post('/api/users/delete')
+                .put('/api/users/delete')
                 .send({ name: 'dion' })
-                .set('Accept', 'application/json')
+ //               .set('Accept', 'application/json')
  //               .expect('Content-Type', /json/)
-                .expect(200, done)
+                .expect(200, done)})
         })
     })
 });

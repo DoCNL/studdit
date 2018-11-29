@@ -15,7 +15,8 @@ module.exports = (app) => {
     //create a new thread
     app.post('/api/thread/add',ThreadController.create);
     //edit an existing thread
-    app.post('/api/thread/edit',ThreadController.edit);
+    app.put('/api/thread/edit',ThreadController.edit);
+    app.delete('/api/thread/', ThreadController.delete);
     //create a new comment as reply to a thread
     app.post('/api/thread/reply', CommentController.replyToThread);
     //Upvote a thread or comment, depends on the given object

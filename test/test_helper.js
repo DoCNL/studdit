@@ -47,14 +47,14 @@ before((done) => {
         });
 });
 
-// beforeEach((done) => {
-//     const { users, comments, threads } = mongoose.connection.collections;
+ beforeEach((done) => {
+    const { users, comments, threads } = mongoose.connection.collections;
 
-//     //users.drop(() => {
+    users.drop(() => {
 //         //comments.drop(() => {
-//             //threads.drop(() => {
-//                 done();
-//             });
-//         });
-// //    });
-// // });
+             threads.drop(() => {
+               done();
+            });
+        });
+//    });
+});
