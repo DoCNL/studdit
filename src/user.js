@@ -23,12 +23,7 @@ const UserSchema = new Schema({
     threads: [{
         type: Schema.Types.ObjectId,
         ref: 'thread'
-    }],
-    active: {
-        type: Boolean,
-        default: true,
-        required: [true, 'Name is required.']
-    }
+    }]
 });
 
 const User = mongoose.model('user', UserSchema);
